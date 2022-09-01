@@ -113,7 +113,7 @@ forwarding_config = {
     protocol    = "TCP"
     description = "ws"
   },
-  "18083" = {
+  "80" = {
     dest_port   = 18083,
     protocol    = "TCP"
     description = "dashboard"

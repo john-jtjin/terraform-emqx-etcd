@@ -15,7 +15,7 @@ export access_key="aws_accesskey"
 export secret_key="aws_secretkey"
 ```
 
-## Deploy EMQX single node
+## Deploy etcd && EMQX cluster
 ```bash
 terraform init
 terraform plan
