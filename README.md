@@ -3,7 +3,7 @@
 
 
 ## Default configurations
-> EMQX: EMQX 5.0.6
+> EMQX: EMQX 5.0.7
 
 > AWS Region: us-southeast-1
 
@@ -16,7 +16,6 @@ export secret_key="aws_secretkey"
 ## Deploy EMQX single node
 ```bash
 terraform init
-terraform plan
 terraform apply -auto-approve
 ```
 
