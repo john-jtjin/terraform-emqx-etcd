@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 HOME="/home/ubuntu"
 
@@ -100,9 +100,6 @@ exhook {
 }
 
 EOF
-
-# modify node name
-echo "node.name = emqx@${LOCAL_IP}" >> $HOME/emqx/etc/emqx.conf 
 
 # start emqx
 $HOME/emqx/bin/emqx start
