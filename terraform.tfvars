@@ -67,6 +67,6 @@ associate_public_ip_address = true
 
 ## emqx
 emqx_password   = "new-password"
-emqx_version    = "5.0.6"
+emqx_version    = "5.0.7"
 emqx_auth_url   = "https://cdn-source-dev.indochat.net:8080/mqtt/authz/\\$${clientid}"
 emqx_exhook_url = "https://cdn-source-dev.indochat.net:8080"
