@@ -40,18 +40,6 @@ resource "aws_lb_target_group" "tg" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "tga" {
-  for_each = {
-    for pair in setproduct(local.target_port, range(var.instance_count)) : "${pair[0]} ${pair[1]}" => {
-      dest_port = pair[0]
-      idx       = pair[1]
-    }
-  }
-
-  target_group_arn = aws_lb_target_group.tg[local.dest_to_src[each.value.dest_port]].arn
-  port             = each.value.dest_port
-  target_id        = var.instance_ids[each.value.idx]
-}
 
 ######################################
 ## create slef-signed ssl certificate
@@ -67,7 +55,7 @@ resource "tls_private_key" "key" {
 
 resource "tls_self_signed_cert" "public_cert" {
   # key_algorithm         = "RSA"
-  private_key_pem       = "${tls_private_key.key.private_key_pem}"
+  private_key_pem       = tls_private_key.key.private_key_pem
   validity_period_hours = 87600
 
   allowed_uses = [
@@ -87,8 +75,8 @@ resource "tls_self_signed_cert" "public_cert" {
 }
 
 resource "aws_acm_certificate" "cert" {
-  private_key      = "${tls_private_key.key.private_key_pem}"
-  certificate_body = "${tls_self_signed_cert.public_cert.cert_pem}"
+  private_key      = tls_private_key.key.private_key_pem
+  certificate_body = tls_self_signed_cert.public_cert.cert_pem
 }
 
 
@@ -98,7 +86,7 @@ resource "aws_lb_listener" "listener_ssl" {
   port              = each.key
   protocol          = each.value.protocol
   # certificate_arn   = var.certificate_arn
-  certificate_arn   = aws_acm_certificate.cert.arn
+  certificate_arn = aws_acm_certificate.cert.arn
   default_action {
     target_group_arn = aws_lb_target_group.tg_ssl[each.key].arn
     type             = "forward"
@@ -121,17 +109,4 @@ resource "aws_lb_target_group" "tg_ssl" {
     healthy_threshold   = 3
     unhealthy_threshold = 3
   }
-}
-
-resource "aws_lb_target_group_attachment" "tga_ssl" {
-  for_each = {
-    for pair in setproduct(local.target_port_ssl, range(var.instance_count)) : "${pair[0]}:${pair[1]}" => {
-      dest_port = pair[0]
-      idx       = pair[1]
-    }
-  }
-
-  target_group_arn = aws_lb_target_group.tg_ssl[local.dest_to_src_ssl[each.value.dest_port]].arn
-  port             = each.value.dest_port
-  target_id        = var.instance_ids[each.value.idx]
 }

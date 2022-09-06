@@ -41,3 +41,7 @@ variable "emqx_exhook_url" {
 variable "emqx_etcd_url" {
   type = string
 }
+
+variable "lb_target_group_arns" {
+  type = list(string)
+}

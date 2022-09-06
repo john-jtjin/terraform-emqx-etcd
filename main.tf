@@ -81,8 +81,9 @@ module "emqx_cluster_ec2" {
   emqx_auth_url               = var.emqx_auth_url
   emqx_exhook_url             = var.emqx_exhook_url
   emqx_etcd_url               = "http://${module.etcd_ec2.private_ip}:2379"
+  lb_target_group_arns        = module.elb.target_group_arns
 
-  depends_on = [module.etcd_ec2]
+  depends_on = [module.etcd_ec2, module.elb]
 }
 
 module "etcd_ec2" {
@@ -110,7 +111,5 @@ module "elb" {
   forwarding_config     = var.forwarding_config
   forwarding_config_ssl = var.forwarding_config_ssl
   vpc_id                = module.vpc.vpc_id
-  instance_ids          = module.emqx_cluster_ec2.ids
 
-  depends_on = [module.emqx_cluster_ec2]
 }

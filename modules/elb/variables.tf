@@ -14,10 +14,6 @@ variable "instance_count" {
   type = number
 }
 
-variable "instance_ids" {
-  type = list(string)
-}
-
 variable "forwarding_config" {
   type = map(any)
 }

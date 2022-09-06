@@ -18,7 +18,6 @@ export secret_key="aws_secretkey"
 ## Deploy etcd && EMQX cluster
 ```bash
 terraform init
-terraform plan
 terraform apply -auto-approve
 ```
 
