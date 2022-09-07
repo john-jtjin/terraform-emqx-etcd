@@ -1,5 +1,5 @@
-resource "aws_lb" "indohcat" {
-  name               = "dev-indochat"
+resource "aws_lb" "etcd" {
+  name               = "dev-etcd"
   internal           = false
   load_balancer_type = "application"
 
@@ -8,13 +8,13 @@ resource "aws_lb" "indohcat" {
 
 }
 
-resource "aws_alb_listener" "indochat_http" {
+resource "aws_alb_listener" "etcd_http" {
   default_action {
-    target_group_arn = module.imgproxy.alb_target_group_arn
+    target_group_arn = module.etcd.alb_target_group_arn
     type             = "forward"
   }
 
-  load_balancer_arn = aws_lb.indohcat.arn
+  load_balancer_arn = aws_lb.etcd.arn
   port              = 80
   protocol          = "HTTP"
 }

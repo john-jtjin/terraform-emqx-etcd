@@ -1,30 +1,29 @@
-resource "aws_ecs_task_definition" "imgproxy" {
-  family                   = "imgproxy"
+resource "aws_ecs_task_definition" "etcd" {
+  family                   = "etcd"
   requires_compatibilities = ["EC2"]
 
   container_definitions = jsonencode([
     {
-      name         = "imgproxy"
-      image        = "darthsim/imgproxy:latest"
+      name         = "etcd"
+      image        = "bitnami/etcd:3.4.20"
       memory       = 256
       network_mode = "bridge" # dynamic port mapping
       portMappings = [
         {
-          containerPort = 8080
+          containerPort = 2379
           hostPort      = 0 # dynamic port mapping
         }
       ]
       environment = [
-        { "name" : "IMGPROXY_KEY", "value" : var.imgproxy_key },
-        { "name" : "IMGPROXY_SALT", "value" : var.imgproxy_salt },
-        { "name" : "IMGPROXY_PATH_PREFIX", "value" : var.imgproxy_path_prefix },
+        { "name" : "ETCD_LISTEN_CLIENT_URLS", "value" : "http://0.0.0.0:2379" },
+        { "name" : "ALLOW_NONE_AUTHENTICATION", "value" : "yes" },
       ]
       logConfiguration = {
         logDriver = "awslogs"
         options = {
           "awslogs-group" : var.cloudwatch_log_name
           "awslogs-region" : "ap-southeast-1",
-          "awslogs-stream-prefix" : "imgproxy"
+          "awslogs-stream-prefix" : "etcd"
         }
       }
     }
