@@ -6,7 +6,7 @@ resource "aws_alb_target_group" "emqx-server-dashboard" {
 
   health_check {
     path    = "/status"
-    matcher = "200-499"
+    matcher = "200"
   }
 }
 

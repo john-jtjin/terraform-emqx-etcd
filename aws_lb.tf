@@ -17,13 +17,23 @@ resource "aws_lb_listener" "nlb-etcd" {
   protocol          = "TCP"
 }
 
-# resource "aws_alb_listener" "emqx_dashboard" {
-#   default_action {
-#     target_group_arn = module.emqx.dashboard_target_group_arn
-#     type             = "forward"
-#   }
+resource "aws_lb" "alb" {
+  name               = "alb"
+  internal           = false
+  load_balancer_type = "application"
 
-#   load_balancer_arn = aws_lb.etcd.arn
-#   port              = 18083
-#   protocol          = "HTTP"
-# }
+  security_groups = [aws_security_group.alb.id]
+  subnets         = [aws_subnet.public-1a.id, aws_subnet.public-1b.id]
+}
+
+
+resource "aws_alb_listener" "emqx_dashboard" {
+  default_action {
+    target_group_arn = module.emqx.dashboard_target_group_arn
+    type             = "forward"
+  }
+
+  load_balancer_arn = aws_lb.alb.arn
+  port              = 18083
+  protocol          = "HTTP"
+}

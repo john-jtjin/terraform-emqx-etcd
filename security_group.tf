@@ -1,6 +1,6 @@
-resource "aws_security_group" "indochat-alb" {
+resource "aws_security_group" "alb" {
   vpc_id = aws_vpc.main.id
-  name   = "indochat-alb"
+  name   = "alb"
 
   egress = [
     {
@@ -44,19 +44,6 @@ resource "aws_security_group" "indochat-alb" {
       security_groups  = []
       self             = false
       to_port          = 80
-    },
-    {
-      cidr_blocks = [
-        "0.0.0.0/0",
-      ]
-      description      = ""
-      from_port        = 2379
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      protocol         = "tcp"
-      security_groups  = []
-      self             = false
-      to_port          = 2379
     },
     {
       cidr_blocks = [
