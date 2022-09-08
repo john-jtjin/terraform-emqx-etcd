@@ -45,7 +45,19 @@ resource "aws_security_group" "indochat-alb" {
       self             = false
       to_port          = 80
     },
-
+    {
+      cidr_blocks = [
+        "0.0.0.0/0",
+      ]
+      description      = ""
+      from_port        = 2379
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 2379
+    },
   ]
 
 }
@@ -85,3 +97,4 @@ resource "aws_security_group" "indochat-ecs-ec2" {
     }
   ]
 }
+

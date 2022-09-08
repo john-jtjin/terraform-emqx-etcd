@@ -15,6 +15,6 @@ resource "aws_alb_listener" "etcd_http" {
   }
 
   load_balancer_arn = aws_lb.etcd.arn
-  port              = 80
+  port              = 2379
   protocol          = "HTTP"
 }
