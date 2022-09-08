@@ -1,12 +1,12 @@
-resource "aws_alb_target_group" "etcd" {
+resource "aws_lb_target_group" "etcd" {
   vpc_id   = var.vpc_id
   name     = "etcd"
   port     = 2379
-  protocol = "HTTP"
+  protocol = "TCP"
 
   health_check {
-    path    = "/version"
-    matcher = "200"
+    port     = "traffic-port"
+    protocol = "TCP"
   }
 }
 
