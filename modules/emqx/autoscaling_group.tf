@@ -1,7 +1,7 @@
 resource "aws_autoscaling_group" "indochat-emqx-autoscaling-group" {
   name                      = "${var.env}-indochat-emqx-autoscaling-group"
   vpc_zone_identifier       = var.subnet_ids
-  target_group_arns         = [aws_alb_target_group.emqx-server-dashboard.arn]
+  target_group_arns         = [aws_alb_target_group.emqx-server-dashboard.arn, aws_lb_target_group.emqx-server-mqtt.arn, aws_alb_target_group.emqx-server-websocket.arn]
   health_check_grace_period = 300
   health_check_type         = "ELB"
   launch_template {

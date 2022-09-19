@@ -23,5 +23,13 @@ resource "aws_launch_template" "emqx-server" {
   monitoring {
     enabled = true
   }
+
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = {
+      Name = "emqx-server-${var.env}"
+    }
+  }
 }
 

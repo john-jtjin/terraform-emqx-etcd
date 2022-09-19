@@ -28,14 +28,6 @@ resource "aws_security_group" "emqx-server" {
   }
 
   ingress {
-    description = "Management API"
-    from_port   = 8081
-    to_port     = 18083
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
     description = "Dashboard"
     from_port   = 18083
     to_port     = 18083

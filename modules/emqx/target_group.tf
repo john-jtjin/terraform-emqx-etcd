@@ -10,3 +10,26 @@ resource "aws_alb_target_group" "emqx-server-dashboard" {
   }
 }
 
+resource "aws_lb_target_group" "emqx-server-mqtt" {
+  vpc_id   = var.vpc_id
+  name     = "emqx-server-mqtt"
+  port     = 1883
+  protocol = "TCP"
+
+  health_check {
+    port     = "traffic-port"
+    protocol = "TCP"
+  }
+}
+
+resource "aws_alb_target_group" "emqx-server-websocket" {
+  vpc_id   = var.vpc_id
+  name     = "emqx-server-websocket"
+  port     = 8083
+  protocol = "HTTP"
+
+  health_check {
+    path    = "/"
+    matcher = "200-499"
+  }
+}

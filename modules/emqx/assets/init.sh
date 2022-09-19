@@ -108,7 +108,15 @@ HOST=$(hostname -I)
 echo "node.name = emqx@$HOST" >> /etc/emqx/emqx.conf
 
 # start emqx
-emqx start
+systemctl enable --now emqx
+
+while true; do
+    if [[ "$(emqx ctl status)" == *"started"* ]]; then
+        break
+    fi
+    echo "waiting for emqx start..."
+    sleep 1
+done
 
 # change default password
 emqx ctl admins passwd admin ${NEW_PASSWORD}
